@@ -15,7 +15,12 @@ router.get('/', function(req, res, next) {
   clientConnection.query(getUsers, function(err, result) {
     if(err) {
     res.status(500).send({
-        "status":"500","code":"90402","userMessage":"Error","developerMessage":err
+      "errors": [
+        {
+          "status": "500",
+          "detail": err
+        }
+      ]
       });
     }
     else {
@@ -34,7 +39,12 @@ router.get('/', function(req, res, next) {
     clientConnection.query(getUser, function(err, result) {
       if(err) {
       res.status(500).send({
-          "status":"500","code":"90402","userMessage":"Error","developerMessage":err
+        "errors": [
+          {
+            "status": "500",
+            "detail": err
+          }
+        ]
         });
       }
       else {
@@ -62,7 +72,12 @@ router.get('/', function(req, res, next) {
          clientConnection.query(returnQuery , function (err, result) {
            if(err) {
            res.status(500).send({
-               "status":"500","code":"90402","userMessage":"Error","developerMessage":err
+             "errors": [
+               {
+                 "status": "500",
+                 "detail": err
+               }
+             ]
              });
            }
            else {
@@ -81,18 +96,27 @@ router.get('/', function(req, res, next) {
     let createUser = 'insert into users values('  +user.phone + ',' + '\'' + user.firstname+ '\'' + ','+ '\'' + user.lastname+ '\'' + ',' + '\''+ user.email+ '\'' + ',' + user.status+ ','  + userId + ')';
     let fetchUser = 'select * from users where id=' + curr_id;
     clientConnection.query(createUser, function(err, result) {
-      console.log(createUser);
       if(err) {
-      res.status(500).send({
-          "status":"500","code":"90402","userMessage":"Error","developerMessage":err
+          res.status(500).send({
+          "errors": [
+            {
+              "status": "500",
+              "detail": err
+            }
+          ]
         });
       }
       else {
         clientConnection.query(fetchUser, function(err, result) {
           if (err) {
             res.status(500).send({
-                "status":"500","code":"90402","userMessage":"Error","developerMessage":err
-              });
+            "errors": [
+              {
+                "status": "500",
+                "detail": err
+              }
+            ]
+          });
           }
           else{
           let data=[];
@@ -112,7 +136,12 @@ router.get('/', function(req, res, next) {
     clientConnection.query(deleteRequest, function(err, result) {
       if(err) {
       res.status(409).send({
-          "status":"409","code":"90402","userMessage":"cannot delete","developerMessage":err
+        "errors": [
+          {
+            "status": "409",
+            "detail": err
+          }
+        ]
         });
       }
       else {
